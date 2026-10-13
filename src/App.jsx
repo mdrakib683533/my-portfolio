@@ -9,6 +9,7 @@ import Education from "./pages/Education/Education";
 import Projects from "./pages/Projects/Projects";
 import Contact from "./pages/Contact/Contact";
 import ProjectDetails from "./pages/Projects/ProjectDetails";
+import Footer from "./components/Footer/Footer";
 
 // Handle navigation to the Projects section
 
@@ -81,6 +82,9 @@ function Portfolio() {
 
         <section id="contact">
           <Contact />
+        </section>
+        <section id="footer">
+          <Footer></Footer>
         </section>
       </main>
     </>

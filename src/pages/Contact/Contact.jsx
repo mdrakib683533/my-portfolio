@@ -147,7 +147,7 @@ function Contact() {
               <div>
                 <h3 className="text-xl font-bold">Send a Message</h3>
                 <h4 className="mt-2 text-base font-semibold text-cyan-400">
-                  Let's Discuss Opportunities
+                  Feel free to contact me
                 </h4>
               </div>
             </div>
