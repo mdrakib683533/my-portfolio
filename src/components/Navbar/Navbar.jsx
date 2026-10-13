@@ -88,7 +88,7 @@ function Navbar() {
               key={link.id}
               type="button"
               onClick={() => handleScroll(link.id)}
-              className={linkClass(link.id)}
+              className={`${linkClass(link.id)} cursor-pointer`}
             >
               {link.name}
             </button>
