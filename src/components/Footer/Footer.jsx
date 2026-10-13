@@ -3,8 +3,8 @@ import { LuGithub, LuLinkedin, LuFacebook } from "react-icons/lu";
 function Footer() {
   const socialLinks = [
     {
-      name: "https://github.com/mdrakib683533",
-      url: "https://github.com/",
+      name: "GitHub",
+      url: "https://github.com/mdrakib683533",
       icon: LuGithub,
     },
     {
