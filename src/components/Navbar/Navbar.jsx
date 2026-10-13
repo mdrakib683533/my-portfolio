@@ -98,7 +98,7 @@ function Navbar() {
         {/* Resume Button + Mobile Menu */}
         <div className="flex items-center gap-3">
           <a
-            href="/resume.pdf"
+            href="/Resume.pdf"
             download="Rakib-Resume.pdf"
             className="hidden items-center gap-2 rounded-lg border border-cyan-400 px-4 py-2 text-sm font-bold text-cyan-400 transition duration-300 hover:-translate-y-0.5 hover:bg-cyan-400 hover:text-[#0B0F14] hover:shadow-lg hover:shadow-cyan-400/10 sm:inline-flex"
           >
