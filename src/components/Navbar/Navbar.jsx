@@ -35,7 +35,9 @@ function Navbar() {
       lastScrollY = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -71,15 +73,33 @@ function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <button
-          type="button"
-          onClick={() => handleScroll("home")}
-          className="text-2xl font-extrabold tracking-wider text-white transition hover:text-cyan-400 sm:text-3xl"
-          aria-label="Go to Home"
-        >
-          RAKIB<span className="text-cyan-400">.</span>
-        </button>
+        {/* Left Side: Mobile Menu + Logo */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Menu Toggle */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className={`rounded-xl p-2 transition hover:bg-cyan-400/10 hover:text-cyan-400 lg:hidden ${
+              isHome ? "text-white" : "text-slate-200"
+            }`}
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <LuX size={24} /> : <LuMenu size={24} />}
+          </button>
+
+          {/* Logo */}
+          <button
+            type="button"
+            onClick={() => handleScroll("home")}
+            className="cursor-pointer text-2xl font-extrabold tracking-wider text-white transition hover:text-cyan-400 sm:text-3xl"
+            aria-label="Go to Home"
+          >
+            RAKIB<span className="text-cyan-400">.</span>
+          </button>
+        </div>
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-1 lg:flex">
@@ -95,35 +115,18 @@ function Navbar() {
           ))}
         </div>
 
-        {/* Resume Button + Mobile Menu */}
-        <div className="flex items-center gap-3">
-          <a
-            href="/Resume.pdf"
-            download="Rakib-Resume.pdf"
-            className="hidden items-center gap-2 rounded-lg border border-cyan-400 px-4 py-2 text-sm font-bold text-cyan-400 transition duration-300 hover:-translate-y-0.5 hover:bg-cyan-400 hover:text-[#0B0F14] hover:shadow-lg hover:shadow-cyan-400/10 sm:inline-flex"
-          >
-            RESUME
-            <LuDownload size={17} />
-          </a>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            className={`rounded-xl p-2 transition hover:bg-cyan-400/10 hover:text-cyan-400 lg:hidden ${
-              isHome ? "text-white" : "text-slate-200"
-            }`}
-            aria-label={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-            aria-expanded={menuOpen}
-          >
-            {menuOpen ? <LuX size={25} /> : <LuMenu size={25} />}
-          </button>
-        </div>
+        {/* Right Side: Resume Button */}
+        <a
+          href="/Resume.pdf"
+          download="Rakib-Resume.pdf"
+          className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-cyan-400 px-3 py-2 text-xs font-bold text-cyan-400 transition duration-300 hover:-translate-y-0.5 hover:bg-cyan-400 hover:text-[#0B0F14] hover:shadow-lg hover:shadow-cyan-400/10 sm:gap-2 sm:px-4 sm:text-sm"
+        >
+          RESUME
+          <LuDownload size={16} />
+        </a>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation Dropdown */}
       {menuOpen && (
         <div className="border-t border-cyan-400/10 bg-[#0B0F14]/98 px-4 pb-4 pt-3 shadow-xl backdrop-blur-xl lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1">
@@ -132,20 +135,11 @@ function Navbar() {
                 key={link.id}
                 type="button"
                 onClick={() => handleScroll(link.id)}
-                className="rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-200 transition hover:bg-cyan-400/10 hover:text-cyan-400"
+                className="cursor-pointer rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-200 transition hover:bg-cyan-400/10 hover:text-cyan-400"
               >
                 {link.name}
               </button>
             ))}
-
-            <a
-              href="/resume.pdf"
-              download="Rakib-Resume.pdf"
-              className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-4 py-3 text-sm font-bold text-[#0B0F14] transition hover:bg-cyan-300"
-            >
-              Download Resume
-              <LuDownload size={17} />
-            </a>
           </div>
         </div>
       )}

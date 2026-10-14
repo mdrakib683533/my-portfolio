@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import { FaGithub, FaExternalLinkAlt, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
 
@@ -51,6 +52,38 @@ const projects = [
   },
 ];
 
+// Reusable scroll reveal animation
+const revealVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Reusable animated wrapper
+function Reveal({ children, delay = 0, className = "" }) {
+  return (
+    <motion.div
+      variants={revealVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 const Projects = () => {
   return (
     <section
@@ -60,18 +93,24 @@ const Projects = () => {
       <div className="mx-auto max-w-7xl">
         {/* Section heading */}
         <div className="mb-20 text-center md:mb-24">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
-            My Recent Work
-          </p>
+          <Reveal>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+              My Recent Work
+            </p>
+          </Reveal>
 
-          <h2 className="text-4xl font-bold sm:text-5xl md:text-6xl">
-            Featured <span className="text-cyan-400">Projects.</span>
-          </h2>
+          <Reveal delay={0.1}>
+            <h2 className="text-4xl font-bold sm:text-5xl md:text-6xl">
+              Featured <span className="text-cyan-400">Projects.</span>
+            </h2>
+          </Reveal>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-gray-400 sm:text-lg">
-            Explore my full-stack projects, the technologies I use, and the
-            real-world solutions I build through web development.
-          </p>
+          <Reveal delay={0.2}>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-gray-400 sm:text-lg">
+              Explore my full-stack projects, the technologies I use, and the
+              real-world solutions I build through web development.
+            </p>
+          </Reveal>
         </div>
 
         {/* Project showcase */}
@@ -94,141 +133,162 @@ const Projects = () => {
                 className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-12 lg:gap-16"
               >
                 {/* Project image */}
-                <div
-                  className={`group relative min-w-0 ${
+                <Reveal
+                  delay={0.05}
+                  className={`min-w-0 ${
                     imageFirst ? "md:order-1" : "md:order-2"
                   }`}
                 >
-                  {/* Image glow */}
-                  <div
-                    className={`absolute -inset-3 rounded-3xl opacity-15 blur-2xl transition-opacity duration-500 group-hover:opacity-35 ${
-                      isZapShift ? "bg-emerald-400" : "bg-cyan-400"
-                    }`}
-                  />
-
-                  {/* Image has no link and is not clickable */}
-                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#101820] shadow-2xl">
-                    {/* Browser-style header */}
-                    <div className="flex items-center gap-2 border-b border-white/10 bg-[#101820] px-4 py-3 sm:px-5">
-                      <span className="h-3 w-3 shrink-0 rounded-full bg-red-400" />
-                      <span className="h-3 w-3 shrink-0 rounded-full bg-yellow-400" />
-                      <span className="h-3 w-3 shrink-0 rounded-full bg-green-400" />
-
-                      <span className="ml-3 min-w-0 flex-1 truncate rounded-md bg-white/5 px-3 py-2 text-xs text-gray-400 sm:text-sm">
-                        {project.title}
-                      </span>
-                    </div>
-
-                    {/* Screenshot: 3:2.5 ratio */}
-                    <div className="overflow-hidden bg-[#101820]">
-                      <img
-                        src={project.image}
-                        alt={`${project.title} website screenshot`}
-                        loading="lazy"
-                        className="pointer-events-none aspect-[3/1.67] w-full object-cover object-top"
-                      />
-                    </div>
-
-                    {/* Project number */}
+                  <div className="group relative">
+                    {/* Image glow */}
                     <div
-                      className={`absolute bottom-5 left-5 rounded-lg border border-white/10 bg-[#0B0F14]/90 px-4 py-2.5 text-sm font-semibold tracking-widest backdrop-blur-sm ${accentColor}`}
-                    >
-                      PROJECT {project.number}
+                      className={`absolute -inset-3 rounded-3xl opacity-15 blur-2xl transition-opacity duration-500 group-hover:opacity-35 ${
+                        isZapShift ? "bg-emerald-400" : "bg-cyan-400"
+                      }`}
+                    />
+
+                    {/* Image has no link and is not clickable */}
+                    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#101820] shadow-2xl">
+                      {/* Browser-style header */}
+                      <div className="flex items-center gap-2 border-b border-white/10 bg-[#101820] px-4 py-3 sm:px-5">
+                        <span className="h-3 w-3 shrink-0 rounded-full bg-red-400" />
+                        <span className="h-3 w-3 shrink-0 rounded-full bg-yellow-400" />
+                        <span className="h-3 w-3 shrink-0 rounded-full bg-green-400" />
+
+                        <span className="ml-3 min-w-0 flex-1 truncate rounded-md bg-white/5 px-3 py-2 text-xs text-gray-400 sm:text-sm">
+                          {project.title}
+                        </span>
+                      </div>
+
+                      {/* Project screenshot */}
+                      <div className="overflow-hidden bg-[#101820]">
+                        <img
+                          src={project.image}
+                          alt={`${project.title} website screenshot`}
+                          loading="lazy"
+                          className="pointer-events-none aspect-[3/1.67] w-full object-cover object-top"
+                        />
+                      </div>
+
+                      {/* Project number */}
+                      <div
+                        className={`absolute bottom-5 left-5 rounded-lg border border-white/10 bg-[#0B0F14]/90 px-4 py-2.5 text-sm font-semibold tracking-widest backdrop-blur-sm ${accentColor}`}
+                      >
+                        PROJECT {project.number}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
 
-                {/* Project information: same column width as image */}
+                {/* Project information */}
                 <div
                   className={`min-w-0 ${
                     imageFirst ? "md:order-2" : "md:order-1"
                   }`}
                 >
-                  <p
-                    className={`mb-4 text-sm font-semibold uppercase tracking-[0.15em] sm:text-base sm:tracking-[0.2em] ${accentColor}`}
-                  >
-                    {project.subtitle}
-                  </p>
+                  <Reveal delay={0.05}>
+                    <p
+                      className={`mb-4 text-sm font-semibold uppercase tracking-[0.15em] sm:text-base sm:tracking-[0.2em] ${accentColor}`}
+                    >
+                      {project.subtitle}
+                    </p>
+                  </Reveal>
 
-                  <h3 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
-                    {project.title}
-                    <span className={accentColor}>.</span>
-                  </h3>
+                  <Reveal delay={0.1}>
+                    <h3 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
+                      {project.title}
+                      <span className={accentColor}>.</span>
+                    </h3>
+                  </Reveal>
 
-                  <p className="mt-6 text-base leading-8 text-gray-400 sm:text-lg sm:leading-9">
-                    {project.description}
-                  </p>
+                  <Reveal delay={0.15}>
+                    <p className="mt-6 text-base leading-8 text-gray-400 sm:text-lg sm:leading-9">
+                      {project.description}
+                    </p>
+                  </Reveal>
 
                   {/* Technologies */}
-                  <div className="mt-8">
-                    <h4 className="mb-4 text-base font-semibold text-gray-200">
-                      Technologies
-                    </h4>
+                  <Reveal delay={0.1}>
+                    <div className="mt-8">
+                      <h4 className="mb-4 text-base font-semibold text-gray-200">
+                        Technologies
+                      </h4>
 
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((technology) => (
-                        <span
-                          key={technology}
-                          className={`rounded-lg border border-white/10 bg-[#101820] px-3 py-2 text-sm font-medium text-gray-300 transition-colors duration-300 ${
-                            isZapShift
-                              ? "hover:border-emerald-400/50 hover:text-emerald-300"
-                              : "hover:border-cyan-400/50 hover:text-cyan-300"
-                          }`}
-                        >
-                          {technology}
-                        </span>
-                      ))}
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((technology, techIndex) => (
+                          <motion.span
+                            key={technology}
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.15 }}
+                            transition={{
+                              duration: 0.4,
+                              delay: techIndex * 0.04,
+                              ease: "easeOut",
+                            }}
+                            className={`rounded-lg border border-white/10 bg-[#101820] px-3 py-2 text-sm font-medium text-gray-300 transition-colors duration-300 ${
+                              isZapShift
+                                ? "hover:border-emerald-400/50 hover:text-emerald-300"
+                                : "hover:border-cyan-400/50 hover:text-cyan-300"
+                            }`}
+                          >
+                            {technology}
+                          </motion.span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  </Reveal>
 
                   {/* Action buttons */}
-                  <div className="mt-9 flex flex-wrap items-center gap-3">
-                    {/* Live Demo */}
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`inline-flex items-center gap-2 rounded-lg border border-transparent bg-white px-4 py-3 text-sm font-semibold text-[#0B0F14] transition-all duration-300 sm:px-5 ${hoverColor}`}
-                    >
-                      Live Demo
-                      <FaExternalLinkAlt className="text-xs" />
-                    </a>
+                  <Reveal delay={0.15}>
+                    <div className="mt-9 flex flex-wrap items-center gap-3">
+                      {/* Live Demo */}
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`inline-flex items-center gap-2 rounded-lg border border-transparent bg-white px-4 py-3 text-sm font-semibold text-[#0B0F14] transition-all duration-300 sm:px-5 ${hoverColor}`}
+                      >
+                        Live Demo
+                        <FaExternalLinkAlt className="text-xs" />
+                      </a>
 
-                    {/* Client repository */}
-                    <a
-                      href={project.client}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-300 sm:px-5 ${hoverColor}`}
-                    >
-                      <FaGithub className="text-base" />
-                      Client
-                    </a>
+                      {/* Client repository */}
+                      <a
+                        href={project.client}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-300 sm:px-5 ${hoverColor}`}
+                      >
+                        <FaGithub className="text-base" />
+                        Client
+                      </a>
 
-                    {/* Server repository */}
-                    <a
-                      href={project.server}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-300 sm:px-5 ${hoverColor}`}
-                    >
-                      <FaGithub className="text-base" />
-                      Server
-                    </a>
+                      {/* Server repository */}
+                      <a
+                        href={project.server}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`inline-flex items-center gap-2 rounded-lg border border-white/15 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-300 sm:px-5 ${hoverColor}`}
+                      >
+                        <FaGithub className="text-base" />
+                        Server
+                      </a>
 
-                    {/* Navigate to the project details page */}
-                    <Link
-                      to={`/projects/${project.id === 1 ? "zap-shift" : "job-box"}`}
-                      className={`group/details inline-flex items-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold text-gray-200 transition-all duration-300 sm:px-5 ${hoverColor} ${
-                        isZapShift
-                          ? "border-emerald-400/40"
-                          : "border-cyan-400/40"
-                      }`}
-                    >
-                      Details
-                      <FaArrowRight className="text-xs transition-transform duration-300 group-hover/details:translate-x-1" />
-                    </Link>
-                  </div>
+                      {/* Project details navigation */}
+                      <Link
+                        to={`/projects/${project.id === 1 ? "zap-shift" : "job-box"}`}
+                        className={`group/details inline-flex items-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold text-gray-200 transition-all duration-300 sm:px-5 ${hoverColor} ${
+                          isZapShift
+                            ? "border-emerald-400/40"
+                            : "border-cyan-400/40"
+                        }`}
+                      >
+                        Details
+                        <FaArrowRight className="text-xs transition-transform duration-300 group-hover/details:translate-x-1" />
+                      </Link>
+                    </div>
+                  </Reveal>
                 </div>
               </article>
             );
